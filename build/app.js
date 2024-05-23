@@ -12,6 +12,9 @@ const port = 3000;
 app.use((0, cors_1.default)());
 app.use((0, helmet_1.default)());
 app.use((0, morgan_1.default)('dev'));
+app.get('/', (req, res) => {
+    res.send('Welcome to my simple API!');
+});
 app.listen(port, () => {
     console.log(`Server started at http://localhost:${port}`);
 });

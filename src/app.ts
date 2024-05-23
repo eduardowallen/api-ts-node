@@ -10,6 +10,10 @@ app.use(cors())
 app.use(helmet())
 app.use(morgan('dev'))
 
+app.get('/', (req, res) => {
+    res.send('Welcome to my simple API!')
+})
+
 app.listen(port, () => {
     console.log(`Server started at http://localhost:${port}`)
 })
