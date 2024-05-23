@@ -1,0 +1,2 @@
+npm install express cors dotenv helmet morgan
+npm install --save-dev typescript @types/express @types/cors @types/dotenv @types/helmet @types/morgan
