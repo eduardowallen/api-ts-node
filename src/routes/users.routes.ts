@@ -6,27 +6,14 @@ import {
     updateUserController,
     deleteUserController
 } from '../controllers/users.controllers'
+import { validateUser } from '../utils/users.validators'
 
 const router = Router()
 
-router.get('/', (req: Request, res: Response) => {
-    getUsersController(req, res)
-})
-
-router.get('/:id', (req: Request, res: Response) => {
-    getUserByIdController(req, res)
-})
-
-router.post('/', (req: Request, res: Response) => {
-    createUserController(req, res)
-})
-
-router.put('/:id', (req: Request, res: Response) => {
-    updateUserController(req, res)
-})
-
-router.delete('/:id', (req: Request, res: Response) => {
-    deleteUserController(req, res)
-})
+router.get('/', getUsersController)
+router.get('/:id', getUserByIdController)
+router.post('/', validateUser, createUserController)
+router.put('/:id', validateUser, updateUserController)
+router.delete('/:id', deleteUserController)
 
 export default router
