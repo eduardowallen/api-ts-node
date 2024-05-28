@@ -2,8 +2,8 @@
 
 # Run the following commands to install dependencies
 
-npm install express cors dotenv helmet morgan dotenv
-npm install --save-dev typescript @types/express @types/cors @types/dotenv @types/helmet @types/morgan @types/dotenv
+npm install express cors dotenv helmet morgan dotenv mysql2
+npm install --save-dev typescript @types/express @types/cors @types/dotenv @types/helmet @types/morgan @types/dotenv @types/node
 
 # The following commands will rebuild and start our server
 # in Bash
