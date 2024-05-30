@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { User } from '../interfaces/IUser'
+import { IUser } from '../interfaces/IUser'
 import { UserModel } from '../models/userModel'
 
 class UserController {
@@ -20,7 +20,7 @@ class UserController {
             res.status(404).json({ message: 'Invalid user ID' })
         }
         try {
-            const user: User | null = await this.userModel.getUserById(id)
+            const user: IUser | null = await this.userModel.getUserById(id)
             if (user) {
                 res.status(200).json({ user })
             } else {
@@ -32,16 +32,16 @@ class UserController {
     }
     
     public createUser = async (req: Request, res: Response): Promise<void> => {
-        const user: User = req.body
+        const user: IUser = { ...req.body, id: undefined }
         if (!user.name || !user.email || !user.password) {
             res.status(400).json({ message: 'Missing required fields' })
             return
         }
         try {
-            await this.userModel.createUser(user)
+            const createdUser = await this.userModel.createUser(user)
             res.status(201).json({
                 message: 'User created successfully',
-                user
+                user: createdUser
             })
         } catch (error) {
             res.status(500).json({ message: 'Internal server error' })
@@ -50,7 +50,7 @@ class UserController {
     
     public updateUser = (req: Request, res: Response): void => {
         const id: number = parseInt(req.params.id, 10)
-        const user: User = req.body
+        const user: IUser = req.body
         user.id = id
         this.userModel.updateUser(user)
         res.status(200).json({

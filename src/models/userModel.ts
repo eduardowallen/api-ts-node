@@ -1,13 +1,14 @@
+import { timeStamp } from "console"
 import PoolManager from "../config/poolManager"
-import { User } from '../interfaces/IUser'
+import { IUser } from '../interfaces/IUser'
 
 export class UserModel {
     private pool = PoolManager.getInstance()
 
-    public async getUsers(): Promise<Array<User>> {
+    public async getUsers(): Promise<IUser[]> {
         try {
             const [rows] = await (await this.pool).query('SELECT * FROM users')
-            const users = rows as User[]
+            const users = rows as IUser[]
             return users.length ? users : []
         } catch (err) {
             console.error('Error fetching users', err)
@@ -15,10 +16,10 @@ export class UserModel {
         }
     }
 
-    public async getUserById(id: number): Promise<User | null> {
+    public async getUserById(id: number): Promise<IUser | null> {
         try {
-            const [rows] = await (await this.pool).execute('SELECT * from users WHERE id = ? LIMIT 1', id)
-            const user = rows as User[]
+            const [rows] = await (await this.pool).execute('SELECT * from users WHERE id = ? LIMIT 1', [id])
+            const user = rows as IUser[]
             return user.length ? user[0] : null
         } catch (err) {
             console.error(`Error fetching user with id ${id}`, err)
@@ -26,18 +27,18 @@ export class UserModel {
         }
     }
     
-    public async createUser(user: User): Promise<void> {
+    public async createUser(user: IUser): Promise<void> {
         try {
-            await (await this.pool).execute('INSERT INTO users (name, email, password) VALUES (?, ?, ?)', [user.name, user.email, user.password])
+            await (await this.pool).execute('INSERT INTO users (name, email, password, created_at) VALUES (?, ?, ?, CURRENT_TIMESTAMP)', [user.name, user.email, user.password])
         } catch (err) {
             console.error("Error creating user:", err)
             throw new Error("Database error")
         }
     }
 
-    public async updateUser(user: User): Promise<void> {
+    public async updateUser(user: IUser): Promise<void> {
         try {
-            await (await this.pool).execute('UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?', [user.name, user.email, user.password, user.id])
+            await (await this.pool).execute('UPDATE users SET name = ?, email = ?, password = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?', [user.name, user.email, user.password, user.id])
         } catch (err) {
             console.error(`Error updating user with id ${user.id}:`, err)
             throw new Error("Database error")
