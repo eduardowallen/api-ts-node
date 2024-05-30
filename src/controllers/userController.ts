@@ -9,31 +9,46 @@ class UserController {
         this.userModel = new UserModel()
     }
     
-    public getUsers = (req: Request, res: Response): void => {
-        const users = this.userModel.getUsers()
+    public getUsers = async (req: Request, res: Response): Promise<void> => {
+        const users = await this.userModel.getUsers()
         res.status(200).json({ users })
     }
     
-    public getUserByIdController = (req: Request, res: Response): void => {
+    public getUserById = async (req: Request, res: Response): Promise<void> => {
         const id: number = parseInt(req.params.id, 10)
-        const user: User | undefined = this.userModel.getUserById(id)
-        if (user) {
-            res.status(200).json({ user })
-        } else {
-            res.status(404).json({ message: 'User not found' })
+        if (isNaN(id)) {
+            res.status(404).json({ message: 'Invalid user ID' })
+        }
+        try {
+            const user: User | null = await this.userModel.getUserById(id)
+            if (user) {
+                res.status(200).json({ user })
+            } else {
+                res.status(404).json({ message: 'User not found' })
+            }
+        } catch (error) {
+            res.status(500).json({ message: 'Internal server error' })
         }
     }
     
-    public createUserController = (req: Request, res: Response): void => {
+    public createUser = async (req: Request, res: Response): Promise<void> => {
         const user: User = req.body
-        this.userModel.createUser(user)
-        res.status(201).json({
-            message: 'User created successfully',
-            user
-        })
+        if (!user.name || !user.email || !user.password) {
+            res.status(400).json({ message: 'Missing required fields' })
+            return
+        }
+        try {
+            await this.userModel.createUser(user)
+            res.status(201).json({
+                message: 'User created successfully',
+                user
+            })
+        } catch (error) {
+            res.status(500).json({ message: 'Internal server error' })
+        }
     }
     
-    public updateUserController = (req: Request, res: Response): void => {
+    public updateUser = (req: Request, res: Response): void => {
         const id: number = parseInt(req.params.id, 10)
         const user: User = req.body
         user.id = id
@@ -44,7 +59,7 @@ class UserController {
         })
     }
     
-    public deleteUserController = (req: Request, res: Response): void => {
+    public deleteUser = (req: Request, res: Response): void => {
         const id: number = parseInt(req.params.id, 10)
         this.userModel.deleteUser(id)
         res.status(200).json({
