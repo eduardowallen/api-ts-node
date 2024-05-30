@@ -31,6 +31,7 @@ class PoolManager {
         if ((rows as any).length === 0) {
             await setupDatabase(connection)
             console.log(`Database missing. Setting up database '${process.env.MYSQL_DATABASE}'`)
+            console.log('Database setup complete')
         } else {
             console.log('Database exists, skipping setup')
         }
