@@ -1,5 +1,8 @@
-export const CREATE_DATABASE = `CREATE DATABASE IF NOT EXISTS ${process.env.MYSQL_DATABASE}`
+import dotenv from 'dotenv'
+dotenv.config()
 
+export const CREATE_DATABASE = `CREATE DATABASE IF NOT EXISTS ${process.env.MYSQL_DATABASE}`
+export const SELECT_DATABASE = `USE ${process.env.MYSQL_DATABASE}`
 export const CREATE_USERS_TABLE = `CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -14,6 +17,7 @@ export const CREATE_TASKS_TABLE = `CREATE TABLE IF NOT EXISTS tasks (
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     sort_order INT DEFAULT 0,
+    user_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )`

@@ -4,6 +4,8 @@ import helmet from 'helmet'
 import morgan from 'morgan'
 import router from './routes'
 import dotenv from 'dotenv'
+import PoolManager from './config/poolManager'
+
 
 dotenv.config()
 
@@ -16,6 +18,7 @@ app.use(helmet())
 app.use(morgan(env))
 app.use(express.json())
 
+PoolManager.checkDatabaseExists()
 app.use('/', router)
 
 app.listen(port, () => {
