@@ -26,7 +26,16 @@ export class UserModel {
             throw new Error("Database error")
         }
     }
-    
+    public async getUserByEmail(email: string): Promise<IUser | null> {
+        try {
+            const [rows] = await (await this.pool).execute('SELECT * from users WHERE email = ? LIMIT 1', [email])
+            const user = rows as IUser[]
+            return user.length ? user[0] : null
+        } catch (err) {
+            console.error(`Error fetching user with id ${email}`, err)
+            throw new Error("Database error")
+        }
+    }    
     public async createUser(user: IUser): Promise<void> {
         try {
             await (await this.pool).execute('INSERT INTO users (name, email, password, created_at) VALUES (?, ?, ?, CURRENT_TIMESTAMP)', [user.name, user.email, user.password])
@@ -47,7 +56,7 @@ export class UserModel {
 
     public async deleteUser(id: number): Promise<void> {
         try {
-            await (await this.pool).execute('DELETE FROM users WHERE id = ?', id)
+            await (await this.pool).execute('DELETE FROM users WHERE id = ?', [id])
         } catch (err) {
             console.error(`Error deleting user with id ${id}:`, err)
             throw new Error("Database error")

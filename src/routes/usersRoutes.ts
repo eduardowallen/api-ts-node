@@ -1,13 +1,14 @@
 import { Router, Request, Response } from 'express'
 import UserController from '../controllers/userController'
-import { validateUser } from '../utils/users.validators'
 
 const router = Router()
 const userController = new UserController()
 
 router.get('/', userController.getUsers)
 router.get('/:id', userController.getUserById)
-router.post('/', userController.createUser)
+router.get('/:email', userController.getUserByEmail)
+router.post('/createUser', userController.createUser)
+router.post('/createDummyUser', userController.createDummyUser)
 router.put('/:id', userController.updateUser)
 router.delete('/:id', userController.deleteUser)
 
