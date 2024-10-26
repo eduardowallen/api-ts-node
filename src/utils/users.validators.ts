@@ -33,6 +33,10 @@ export const validateUser = (
         }
     next()
 }
+export const isValidEmail = (email: string) => {
+    return !!email && /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)
+}
+
 /*
 export const validateUser = (
     req: Request,
