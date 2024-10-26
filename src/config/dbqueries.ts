@@ -10,15 +10,16 @@ const default_user_interface = `(
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )`
 
 /* Users tables */
-export const CREATE_GLOBALADMINS_TABLE = `CREATE TABLE IF NOT EXISTS globaladmins` + {default_user_interface} + `)`
-export const CREATE_VISITORS_TABLE = `CREATE TABLE IF NOT EXISTS visitors` + {default_user_interface} + `)`
-export const CREATE_ORGANIZERS_TABLE = `CREATE TABLE IF NOT EXISTS organizers` + {default_user_interface} + `)`
+export const CREATE_GLOBALADMINS_TABLE = `CREATE TABLE IF NOT EXISTS globaladmins` + {default_user_interface}
+export const CREATE_VISITORS_TABLE = `CREATE TABLE IF NOT EXISTS visitors` + {default_user_interface}
+export const CREATE_ORGANIZERS_TABLE = `CREATE TABLE IF NOT EXISTS organizers` + {default_user_interface}
 export const CREATE_ADMINS_TABLE = `CREATE TABLE IF NOT EXISTS admins` + {default_user_interface} + `)`
-export const CREATE_EXHIBITORS_TABLE = `CREATE TABLE IF NOT EXISTS exhibitors` + {default_user_interface} + `)`
-export const CREATE_SPEAKERS_TABLE = `CREATE TABLE IF NOT EXISTS speakers` + {default_user_interface} + `)`
+export const CREATE_EXHIBITORS_TABLE = `CREATE TABLE IF NOT EXISTS exhibitors` + {default_user_interface}
+export const CREATE_SPEAKERS_TABLE = `CREATE TABLE IF NOT EXISTS speakers` + {default_user_interface}
 
 /* Events, maps, spaces and bookings table */
 export const CREATE_EVENTS_TABLE = `CREATE TABLE IF NOT EXISTS events (
