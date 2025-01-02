@@ -1,3 +1,4 @@
+import { IAdmin } from '../interfaces/IAdmin';
 import { IUser } from '../interfaces/IUser'
 const dummyNamesFirstname = [
     'John',
@@ -42,3 +43,13 @@ export function getDummyUser(): IUser {
     }
 }
 
+export function getDummyAdmin(): IAdmin {
+    const dummyName = getDummyName();
+    return {
+        name: dummyName,
+        email: `${dummyName.replace(' ', '.').toLowerCase()}.admin@example.com`,
+        password: 'password123',
+        createdAt: new Date(Date.now() - Math.floor(Math.random() * 10000000000)),
+        updatedAt: new Date(Date.now() - Math.floor(Math.random() * 10000000000))
+    }
+}
